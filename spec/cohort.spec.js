@@ -29,7 +29,7 @@ describe('Cohort', () => {
     const expected = { students: [], teachers: [] };
     cohort.createCohort('Cohort 01');
     cohort.createCohort('Cohort 02');
-    const result = cohort.searchForCohort('Cohort 02');
+    const result = cohort.viewCohort('Cohort 02');
     expect(result).toEqual(expected);
   });
 
@@ -37,7 +37,7 @@ describe('Cohort', () => {
     const expected = 'Cohort 03 not found';
     cohort.createCohort('Cohort 01');
     cohort.createCohort('Cohort 02');
-    const result = cohort.searchForCohort('Cohort 03');
+    const result = cohort.viewCohort('Cohort 03');
     expect(result).toEqual(expected);
   });
 });

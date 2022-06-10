@@ -77,7 +77,7 @@ class Cohort {
     } else return 'Please follow the naming format of "Cohort [0-9][0-9]"';
     return this.cohorts;
   }
-  searchForCohort(cohortName) {
+  viewCohort(cohortName) {
     let foundCohort;
     this.cohorts.forEach((cohort) => {
       if (Object.keys(cohort) == cohortName) {
