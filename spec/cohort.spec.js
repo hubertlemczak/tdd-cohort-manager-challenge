@@ -1,43 +1,53 @@
+const Cohort = require('../scripts/cohort');
 const CohortManager = require('../scripts/cohortManager');
 
-describe('Cohort Manager', () => {
+describe('Cohort', () => {
   let cohortManager;
+  let cohort;
+
   beforeEach(() => {
     cohortManager = new CohortManager();
+    cohort = new Cohort();
   });
 
-  it('Adds a new cohort', () => {
-    const expected = [{ 'Cohort 05': { students: [], teachers: [] } }];
-    const result = cohortManager.createCohort('Cohort 05');
-    expect(result).toEqual(expected);
-  });
-
-  it('Checks if cohort name is valid', () => {
-    const expected = 'Please follow the naming format of "Cohort [0-9][0-9]"';
-    const result = cohortManager.createCohort('Cohort a');
-    expect(result).toEqual(expected);
-  });
-
-  it('Checks if cohort name is already in use', () => {
-    const expected = 'Cohort 09 already exists, please choose another name';
-    cohortManager.createCohort('Cohort 09');
-    const result = cohortManager.createCohort('Cohort 09');
-    expect(result).toEqual(expected);
-  });
-
-  it('Searches for existing cohort', () => {
-    const expected = { students: [], teachers: [] };
+  it('Student added to cohort', () => {
+    const expected = [
+      {
+        studentId: 1,
+        firstName: 'Test Name',
+        lastName: 'Test Name',
+        github: 'Test Username',
+        email: 'Test@email.com',
+      },
+    ];
     cohortManager.createCohort('Cohort 01');
-    cohortManager.createCohort('Cohort 02');
-    const result = cohortManager.viewCohort('Cohort 02');
+    const result = cohort.addStudentToCohort(
+      'Cohort 01',
+      'Test Name',
+      'Test Name',
+      'Test Username',
+      'Test@email.com'
+    );
     expect(result).toEqual(expected);
   });
 
-  it('Searches for non-existent cohort', () => {
-    const expected = 'Cohort 03 not found';
+  it('Student added to cohort that they already exist in', () => {
+    const expected = 'This person is already a student in this cohort';
     cohortManager.createCohort('Cohort 01');
-    cohortManager.createCohort('Cohort 02');
-    const result = cohortManager.viewCohort('Cohort 03');
+    cohort.addStudentToCohort(
+      'Cohort 01',
+      'Test Name',
+      'Test Name',
+      'Test Username',
+      'Test@email.com'
+    );
+    const result = cohort.addStudentToCohort(
+      'Cohort 01',
+      'Test Name',
+      'Test Name',
+      'Test Username',
+      'Test@email.com'
+    );
     expect(result).toEqual(expected);
   });
 });

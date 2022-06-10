@@ -12,11 +12,13 @@ class Cohort {
       studentId: this.studentId++,
       firstName,
       lastName,
-      githubUsername: github,
+      github,
       email,
     };
     let isStudent;
-    this.allStudents.forEach((x) => (isStudent = x.email.includes(email)));
+    this.allStudents.forEach(
+      (x) => (isStudent = x.firstName.includes(firstName) && x.lastName.includes(lastName))
+    );
     if (!isStudent) {
       this.allStudents.push(newStudent);
       cohortManager.cohorts.forEach((x) => {
@@ -34,6 +36,7 @@ class Cohort {
     cohortManager.viewCohort(cohortName).students.forEach((cohort) => {
       names.push(cohort[sort]);
     });
+
     if (sort === 'studentId') {
       if (!reverse) names.sort((a, b) => a - b);
       else names.sort((a, b) => b - a);
@@ -42,12 +45,12 @@ class Cohort {
       else names.sort().reverse();
     }
 
-    const cohort = cohortManager.viewCohort(cohortName).students;
+    const cohortStudents = cohortManager.viewCohort(cohortName).students;
     const sortedStudents = [];
     for (let i = 0; i < names.length; i++) {
       for (let j = 0; j < names.length; j++)
-        if (names[i] === cohort[j][sort]) {
-          sortedStudents.push(cohort[j]);
+        if (names[i] === cohortStudents[j][sort]) {
+          sortedStudents.push(cohortStudents[j]);
         }
     }
     return sortedStudents;

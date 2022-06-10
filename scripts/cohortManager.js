@@ -1,62 +1,3 @@
-// const cohorts = [
-//   {
-//     cohortOne: {
-//       students: [
-//         {
-//           studentId: 1,
-//           firstName: 'Hubert',
-//           lastName: 'Lemczak',
-//           githubUsername: 'hubertlemczak',
-//           email: 'hubertlemczak@gmail.com',
-//         },
-//         {
-//           studentId: 2,
-//           firstName: 'Hubert',
-//           lastName: 'Lemczak',
-//           githubUsername: 'hubertlemczak',
-//           email: 'hubertlemczak@gmail.com',
-//         },
-//       ],
-//       teachers: [
-//         {
-//           studentId: 1,
-//           firstName: 'Hubert',
-//           lastName: 'Lemczak',
-//           githubUsername: 'hubertlemczak',
-//           email: 'hubertlemczak@gmail.com',
-//         },
-//       ],
-//     },
-//   },
-// ];
-// const cohorts = require('./cohorts');
-// cohorts.push({
-//   cohortThree: {
-//     students: [
-//       {
-//         studentId: 1,
-//         firstName: 'Hubert',
-//         lastName: 'Lemczak',
-//         githubUsername: 'hubertlemczak',
-//         email: 'hubertlemczak@gmail.com',
-//       },
-//     ],
-//   },
-// });
-// console.log(cohorts);
-// let cohortTwo;
-// const cohortName = 'cohortTwo';
-// // cohorts.forEach((cohort) => console.log(cohort[cohortName]));
-// cohorts.forEach((x) => {
-//   if (Object.keys(x) == cohortName) cohortTwo = x[cohortName];
-// });
-// // console.log(cohortTwo.students);
-// // cohortTwo.students.forEach((student) => console.log(student.firstName));
-// cohorts.forEach((x) => {
-//   let students = x[Object.keys(x)].students;
-//   students.forEach((x) => console.log(x.githubUsername));
-// });
-
 class CohortManager {
   constructor() {
     this.cohorts = [];
@@ -77,6 +18,7 @@ class CohortManager {
     } else return 'Please follow the naming format of "Cohort [0-9][0-9]"';
     return this.cohorts;
   }
+  removeCohort(cohortName) {}
   viewCohort(cohortName) {
     let foundCohort;
     this.cohorts.forEach((cohort) => {
@@ -90,8 +32,14 @@ class CohortManager {
 }
 
 // const cohortManager = new CohortManager();
-// cohort.createCohort('Cohort 05');
-// cohort.createCohort('Cohort 06');
-// console.log(cohort.searchForCohort('Cohort 06'));
+// cohortManager.createCohort('Cohort 05');
+// cohortManager.createCohort('Cohort 06');
+// console.log(cohortManager.viewCohort('Cohort 06'));
+// console.log('cohorts', cohortManager.cohorts);
+// console.log('allnames', cohortManager.allCohortNames);
+// cohortManager.cohorts.splice(1, 1);
+// cohortManager.allCohortNames = cohortManager.allCohortNames.filter((x) => x != 'Cohort 06');
+// console.log('cohorts', cohortManager.cohorts);
+// console.log('allnames', cohortManager.allCohortNames);
 
 module.exports = CohortManager;

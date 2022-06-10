@@ -21,7 +21,7 @@ Class Cohort
   -allCohortNames (Array)
 -METHODS
   -createCohort(cohortName) => new Object in cohorts: { cohortName: { students: [], teachers: [] } }
-  -searchForCohort(cohortName) => new Object in foundCohort: { cohortName: { students: [], teachers: [] } }
+  -viewCohort(cohortName) => new Object in foundCohort: { students: [], teachers: [] }
 
 Class Student
 -PROPERTIES
