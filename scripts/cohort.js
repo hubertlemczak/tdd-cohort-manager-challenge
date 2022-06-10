@@ -1,97 +1,74 @@
-// const cohorts = [
-//   {
-//     cohortOne: {
-//       students: [
-//         {
-//           studentId: 1,
-//           firstName: 'Hubert',
-//           lastName: 'Lemczak',
-//           githubUsername: 'hubertlemczak',
-//           email: 'hubertlemczak@gmail.com',
-//         },
-//         {
-//           studentId: 2,
-//           firstName: 'Hubert',
-//           lastName: 'Lemczak',
-//           githubUsername: 'hubertlemczak',
-//           email: 'hubertlemczak@gmail.com',
-//         },
-//       ],
-//       teachers: [
-//         {
-//           studentId: 1,
-//           firstName: 'Hubert',
-//           lastName: 'Lemczak',
-//           githubUsername: 'hubertlemczak',
-//           email: 'hubertlemczak@gmail.com',
-//         },
-//       ],
-//     },
-//   },
-// ];
-// const cohorts = require('./cohorts');
-// cohorts.push({
-//   cohortThree: {
-//     students: [
-//       {
-//         studentId: 1,
-//         firstName: 'Hubert',
-//         lastName: 'Lemczak',
-//         githubUsername: 'hubertlemczak',
-//         email: 'hubertlemczak@gmail.com',
-//       },
-//     ],
-//   },
-// });
-// console.log(cohorts);
-// let cohortTwo;
-// const cohortName = 'cohortTwo';
-// // cohorts.forEach((cohort) => console.log(cohort[cohortName]));
-// cohorts.forEach((x) => {
-//   if (Object.keys(x) == cohortName) cohortTwo = x[cohortName];
-// });
-// // console.log(cohortTwo.students);
-// // cohortTwo.students.forEach((student) => console.log(student.firstName));
-// cohorts.forEach((x) => {
-//   let students = x[Object.keys(x)].students;
-//   students.forEach((x) => console.log(x.githubUsername));
-// });
+const CohortManager = require('./cohortManager');
 
 class Cohort {
   constructor() {
-    this.cohorts = [];
-    this.allCohortNames = [];
+    this.studentId = 1;
+    this.allStudents = [];
   }
 
-  createCohort(cohortName) {
-    if (/^Cohort \d\d/.test(cohortName)) {
-      if (!this.allCohortNames.includes(cohortName)) {
-        this.cohorts.push({
-          [cohortName]: {
-            students: [],
-            teachers: [],
-          },
-        });
-        this.allCohortNames.push(cohortName);
-      } else return `${cohortName} already exists, please choose another name`;
-    } else return 'Please follow the naming format of "Cohort [0-9][0-9]"';
-    return this.cohorts;
+  addStudentToCohort(cohortName, firstName, lastName, github, email) {
+    let studentsArr;
+    const newStudent = {
+      studentId: this.studentId++,
+      firstName,
+      lastName,
+      githubUsername: github,
+      email,
+    };
+    let isStudent;
+    this.allStudents.forEach((x) => (isStudent = x.email.includes(email)));
+    if (!isStudent) {
+      this.allStudents.push(newStudent);
+      cohortManager.cohorts.forEach((x) => {
+        studentsArr = x[Object.keys(x)].students;
+        if (Object.keys(x) == cohortName) {
+          studentsArr.push(newStudent);
+        }
+      });
+    } else return 'This person is already a student in this cohort';
+    return this.allStudents;
   }
-  viewCohort(cohortName) {
-    let foundCohort;
-    this.cohorts.forEach((cohort) => {
-      if (Object.keys(cohort) == cohortName) {
-        foundCohort = cohort;
-      }
+
+  studentSortBy(cohortName, sort, reverse) {
+    let names = [];
+    cohortManager.viewCohort(cohortName).students.forEach((cohort) => {
+      names.push(cohort[sort]);
     });
-    if (!foundCohort) return `${cohortName} not found`;
-    return foundCohort[cohortName];
+    if (sort === 'studentId') {
+      if (!reverse) names.sort((a, b) => a - b);
+      else names.sort((a, b) => b - a);
+    } else {
+      if (!reverse) names.sort();
+      else names.sort().reverse();
+    }
+
+    const cohort = cohortManager.viewCohort(cohortName).students;
+    const sortedStudents = [];
+    for (let i = 0; i < names.length; i++) {
+      for (let j = 0; j < names.length; j++)
+        if (names[i] === cohort[j][sort]) {
+          sortedStudents.push(cohort[j]);
+        }
+    }
+    return sortedStudents;
   }
 }
 
 // const cohort = new Cohort();
-// cohort.createCohort('Cohort 05');
-// cohort.createCohort('Cohort 06');
-// console.log(cohort.searchForCohort('Cohort 06'));
+const cohortManager = new CohortManager();
+// cohortManager.createCohort('Cohort 01');
+// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
+// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
+// console.log(cohort.studentSortBy('Cohort 01', 'studentId', 'r'));
 
 module.exports = Cohort;

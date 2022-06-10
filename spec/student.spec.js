@@ -1,11 +1,11 @@
-const Student = require('../scripts/student');
 const Cohort = require('../scripts/cohort');
+const CohortManager = require('../scripts/cohortManager');
 
-describe('Student', () => {
-  let student;
+describe('Cohort', () => {
+  let cohortManager;
   let cohort;
   beforeEach(() => {
-    student = new Student();
+    cohortManager = new CohortManager();
     cohort = new Cohort();
   });
 
@@ -19,8 +19,8 @@ describe('Student', () => {
         email: 'Test@email.com',
       },
     ];
-    cohort.createCohort('Cohort 01');
-    const result = student.addStudentToCohort(
+    cohortManager.createCohort('Cohort 01');
+    const result = cohort.addStudentToCohort(
       'Cohort 01',
       'Test Name',
       'Test Name',
@@ -30,17 +30,17 @@ describe('Student', () => {
     expect(result).toEqual(expected);
   });
 
-  it('Student added to cohort that already exists', () => {
-    const expected = 'This person is already a student';
-    cohort.createCohort('Cohort 01');
-    student.addStudentToCohort(
+  it('Student added to cohort that they already exist in', () => {
+    const expected = 'This person is already a student in this cohort';
+    cohortManager.createCohort('Cohort 01');
+    cohort.addStudentToCohort(
       'Cohort 01',
       'Test Name',
       'Test Name',
       'Test Username',
       'Test@email.com'
     );
-    const result = student.addStudentToCohort(
+    const result = cohort.addStudentToCohort(
       'Cohort 01',
       'Test Name',
       'Test Name',
