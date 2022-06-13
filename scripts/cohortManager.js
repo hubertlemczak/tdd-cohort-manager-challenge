@@ -1,4 +1,5 @@
-// const Cohort = require('./cohort');
+const Cohort = require('./cohort');
+const Student = require('./student');
 
 class CohortManager {
   constructor() {
@@ -9,12 +10,8 @@ class CohortManager {
   createCohort(cohortName) {
     if (/^Cohort \d\d/.test(cohortName)) {
       if (!this.allCohortNames.includes(cohortName)) {
-        this.cohorts.push({
-          [cohortName]: {
-            students: [],
-            teachers: [],
-          },
-        });
+        const newcohort = new Cohort(cohortName);
+        this.cohorts.push(newcohort);
         this.allCohortNames.push(cohortName);
       } else return `${cohortName} already exists, please choose another name`;
     } else return 'Please follow the naming format of "Cohort [0-9][0-9]"';
@@ -42,9 +39,10 @@ class CohortManager {
   }
 }
 
-// const cohortManager = new CohortManager();
-// cohortManager.createCohort('Cohort 03');
-// cohortManager.createCohort('Cohort 01');
+const cohortManager = new CohortManager();
+cohortManager.createCohort('Cohort 03');
+cohortManager.createCohort('Cohort 01');
+console.log(cohortManager.cohorts);
 // cohortManager.createCohort('Cohort 02');
 // cohortManager.removeCohort('Cohort 01');
 // console.log(cohortManager.viewCohort('Cohort 06'));

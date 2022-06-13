@@ -15,6 +15,57 @@ const cohorts = [
   },
 ];
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Class CohortManager
+-PROPERTIES:
+  -cohorts (Array new instance(Cohorts))
+  -allCohortNames (Array cohortNames)
+-METHODS:
+  -createCohort(cohortName) => new instance in cohorts: new Cohort()
+
+Cohort
+
+
+Class Cohort
+-PROPERTIES(cohortName)
+  -name
+  -students
+  -capacity
+-METHODS:
+  -
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 Class CohortManager
 -PROPERTIES
   -cohorts (Array)

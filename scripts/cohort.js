@@ -1,17 +1,17 @@
-const CohortManager = require('./cohortManager');
+const Student = require('./student');
 
+let studentId = 1;
 class Cohort {
-  constructor() {
-    // super();
-    this.studentId = 1;
-    this.allStudents = [];
+  constructor(name) {
+    this.name = name;
+    this.students = [];
     this.cohortCapacity = 24;
   }
-  sd;
+
   addStudentToCohort(cohortName, firstName, lastName, github, email) {
     console.log('cohorts', cohortManager.cohorts);
     const newStudent = {
-      studentId: cohortName.slice(7) + this.studentId++,
+      studentId: cohortName.slice(7) + studentId++,
       firstName,
       lastName,
       github,
@@ -69,16 +69,16 @@ class Cohort {
   }
 }
 
-const cohort = new Cohort();
-const cohortManager = new CohortManager();
-cohortManager.createCohort('Cohort 01');
-cohortManager.createCohort('Cohort 02');
-cohort.addStudentToCohort('Cohort 01', 'Test Nam', 'Test Name', 'Test Username', 'Test@email.com');
-cohort.addStudentToCohort('Cohort 01', 'Test Na', 'Test Name', 'Test Username', 'Test@email.com');
-cohort.addStudentToCohort('Cohort 02', 'Test Name', 'Test Name', 'Test Username', 'Test@email.com');
-console.log('hh', cohortManager.cohorts[0]['Cohort 01'].students);
+// const cohort = new Cohort();
+// const cohortManager = new CohortManager();
+// cohortManager.createCohort('Cohort 01');
+// cohortManager.createCohort('Cohort 02');
+// cohort.addStudentToCohort('Cohort 01', 'Test Nam', 'Test Name', 'Test Username', 'Test@email.com');
+// cohort.addStudentToCohort('Cohort 01', 'Test Na', 'Test Name', 'Test Username', 'Test@email.com');
+// cohort.addStudentToCohort('Cohort 02', 'Test Name', 'Test Name', 'Test Username', 'Test@email.com');
+// console.log('hh', cohortManager.cohorts[0]['Cohort 01'].students);
 
-console.log('pp', cohortManager.cohorts[1]['Cohort 02'].students);
-console.log('COHORT', cohortManager.cohorts);
+// console.log('pp', cohortManager.cohorts[1]['Cohort 02'].students);
+// console.log('COHORT', cohortManager.cohorts);
 
 module.exports = Cohort;
