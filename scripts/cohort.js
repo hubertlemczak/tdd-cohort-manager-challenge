@@ -2,33 +2,45 @@ const CohortManager = require('./cohortManager');
 
 class Cohort {
   constructor() {
+    // super();
     this.studentId = 1;
     this.allStudents = [];
+    this.cohortCapacity = 24;
   }
-
+  sd;
   addStudentToCohort(cohortName, firstName, lastName, github, email) {
-    let studentsArr;
+    console.log('cohorts', cohortManager.cohorts);
     const newStudent = {
-      studentId: this.studentId++,
+      studentId: cohortName.slice(7) + this.studentId++,
       firstName,
       lastName,
       github,
       email,
     };
-    let isStudent;
-    this.allStudents.forEach(
-      (x) => (isStudent = x.firstName.includes(firstName) && x.lastName.includes(lastName))
-    );
-    if (!isStudent) {
-      this.allStudents.push(newStudent);
+
+    if (!this.isStudent(firstName, lastName)) {
       cohortManager.cohorts.forEach((x) => {
-        studentsArr = x[Object.keys(x)].students;
-        if (Object.keys(x) == cohortName) {
-          studentsArr.push(newStudent);
-        }
+        let studentsArr = x[Object.keys(x)].students;
+        if (studentsArr.length <= this.cohortCapacity) {
+          this.allStudents.push(newStudent);
+          if (Object.keys(x) == cohortName) {
+            studentsArr.push(newStudent);
+            console.log(studentsArr);
+          }
+        } else return `${cohortName} is at maximum capacity`;
       });
     } else return 'This person is already a student in this cohort';
     return this.allStudents;
+  }
+
+  isStudent(firstName, lastName) {
+    let isStudent = false;
+    this.allStudents.forEach((x) => {
+      if (x.firstName === firstName && x.lastName === lastName) {
+        isStudent = true;
+      }
+    });
+    return isStudent;
   }
 
   studentSortBy(cohortName, sort, reverse) {
@@ -57,21 +69,16 @@ class Cohort {
   }
 }
 
-// const cohort = new Cohort();
+const cohort = new Cohort();
 const cohortManager = new CohortManager();
-// cohortManager.createCohort('Cohort 01');
-// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Bert', 'Lem', 'bertlem', 'bertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Aert', 'Lem', 'bertlem', 'aertl;em@sd.com');
-// cohort.addStudentToCohort('Cohort 01', 'Cert', 'Lem', 'bertlem', 'certl;em@sd.com');
-// console.log(cohort.studentSortBy('Cohort 01', 'studentId', 'r'));
+cohortManager.createCohort('Cohort 01');
+cohortManager.createCohort('Cohort 02');
+cohort.addStudentToCohort('Cohort 01', 'Test Nam', 'Test Name', 'Test Username', 'Test@email.com');
+cohort.addStudentToCohort('Cohort 01', 'Test Na', 'Test Name', 'Test Username', 'Test@email.com');
+cohort.addStudentToCohort('Cohort 02', 'Test Name', 'Test Name', 'Test Username', 'Test@email.com');
+console.log('hh', cohortManager.cohorts[0]['Cohort 01'].students);
+
+console.log('pp', cohortManager.cohorts[1]['Cohort 02'].students);
+console.log('COHORT', cohortManager.cohorts);
 
 module.exports = Cohort;

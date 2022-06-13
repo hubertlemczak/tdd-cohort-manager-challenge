@@ -15,15 +15,16 @@ const cohorts = [
   },
 ];
 
-Class Cohort
+Class CohortManager
 -PROPERTIES
   -cohorts (Array)
   -allCohortNames (Array)
 -METHODS
   -createCohort(cohortName) => new Object in cohorts: { cohortName: { students: [], teachers: [] } }
   -viewCohort(cohortName) => new Object in foundCohort: { students: [], teachers: [] }
+  -removerCohort(cohortName) => remove cohortName from allCohortNames Array and cohorts Array.
 
-Class Student
+Class Cohort
 -PROPERTIES
   -studentId (Integer)
   -allStudents (Array)

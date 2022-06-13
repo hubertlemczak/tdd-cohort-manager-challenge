@@ -41,4 +41,22 @@ describe('Cohort Manager', () => {
     const result = cohortManager.viewCohort('Cohort 03');
     expect(result).toEqual(expected);
   });
+
+  it('Cohort successfully removed', () => {
+    const expected = [{ 'Cohort 02': { students: [], teachers: [] } }];
+    cohortManager.createCohort('Cohort 01');
+    cohortManager.createCohort('Cohort 02');
+    cohortManager.removeCohort('Cohort 01');
+    const result = cohortManager.cohorts;
+    expect(result).toEqual(expected);
+  });
+
+  it('Searches for non-existent cohort because it has been removed', () => {
+    const expected = 'Cohort 01 not found';
+    cohortManager.createCohort('Cohort 01');
+    cohortManager.createCohort('Cohort 02');
+    cohortManager.removeCohort('Cohort 01');
+    const result = cohortManager.viewCohort('Cohort 01');
+    expect(result).toEqual(expected);
+  });
 });

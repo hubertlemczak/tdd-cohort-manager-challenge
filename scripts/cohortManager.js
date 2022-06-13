@@ -1,3 +1,5 @@
+// const Cohort = require('./cohort');
+
 class CohortManager {
   constructor() {
     this.cohorts = [];
@@ -18,7 +20,16 @@ class CohortManager {
     } else return 'Please follow the naming format of "Cohort [0-9][0-9]"';
     return this.cohorts;
   }
-  removeCohort(cohortName) {}
+
+  removeCohort(cohortName) {
+    if (this.allCohortNames.includes(cohortName)) {
+      this.allCohortNames = this.allCohortNames.filter((cohorts) => cohorts !== cohortName);
+      for (let i = 0; i < this.cohorts.length; i++) {
+        if (this.cohorts[i][cohortName]) this.cohorts.splice(i, 1);
+      }
+    } else return `${cohortName} not found`;
+  }
+
   viewCohort(cohortName) {
     let foundCohort;
     this.cohorts.forEach((cohort) => {
@@ -32,8 +43,10 @@ class CohortManager {
 }
 
 // const cohortManager = new CohortManager();
-// cohortManager.createCohort('Cohort 05');
-// cohortManager.createCohort('Cohort 06');
+// cohortManager.createCohort('Cohort 03');
+// cohortManager.createCohort('Cohort 01');
+// cohortManager.createCohort('Cohort 02');
+// cohortManager.removeCohort('Cohort 01');
 // console.log(cohortManager.viewCohort('Cohort 06'));
 // console.log('cohorts', cohortManager.cohorts);
 // console.log('allnames', cohortManager.allCohortNames);
