@@ -32,21 +32,41 @@ const cohorts = [
 
 Class CohortManager
 -PROPERTIES:
-  -cohorts (Array new instance(Cohorts))
-  -allCohortNames (Array cohortNames)
+  -cohorts (Arr new instance(Cohorts))
+  -allCohortNames (Arr cohortNames)
+  -allStudents (Arr of Obj)
 -METHODS:
   -createCohort(cohortName) => new instance in cohorts: new Cohort()
-
-Cohort
+  -getCohort(cohortName) => finds instance of cohort
+  -removeCohort(cohortName) => removes instance of cohort
+  -addStudentToCohort(cohortName,f,l,g,e) => student = new Student(f,l,g,e)
+  -removeStudentFromCohort(cohortName, id)
+  -searchStudent(id) => found student
+  -getAllCohortNames() => Arr of cohort names
+  -getAllStudents() => Arr of students
+  -isCohort(cohortName) => Boolean
+  -isStudent(f,l,g,e) => Boolean
 
 
 Class Cohort
 -PROPERTIES(cohortName)
   -name
-  -students
+  -students(Arr)
   -capacity
 -METHODS:
-  -
+  -addStudent(student) => pushes student into students Arr
+  -removeStudent(id) => removes student from students Arr
+  -studentSortBy(sort, reverse) => sorted list of students
+
+
+const id = 1;
+Class Student
+-PROPERTIES(firstName, lastName, github, email)
+  -studentId = id++
+  -firstName
+  -lastName
+  -github
+  -email
 
 
 
