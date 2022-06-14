@@ -7,56 +7,59 @@ class CohortManager {
   }
 
   createCohort(cohortName) {
-    const newcohort = new Cohort(cohortName);
+    const cohort = new Cohort(cohortName);
     if (/^Cohort \d\d/.test(cohortName)) {
-      if (!this.allCohortNames.includes(cohortName)) {
-        this.cohorts.push(newcohort);
-        this.allCohortNames.push(newcohort.name);
-        console.log('all', this.allCohortNames);
+      if (!this.getAllCohortNames().includes(cohortName)) {
+        this.cohorts.push(cohort);
       } else return `${cohortName} already exists, please choose another name`;
     } else return 'Please follow the naming format of "Cohort [0-9][0-9]"';
-    return newcohort;
+    return cohort;
   }
 
   removeCohort(cohortName) {
-    this.allCohortNames.splice(0, 1);
-    console.log('cohorts', this.cohorts);
-    console.log('all2', this.allCohortNames);
+    const index = this.getAllCohortNames().indexOf(cohortName);
+    this.cohorts.splice(index, 1);
+    return this;
   }
 
   addStudentToCohort(cohortName, firstName, lastName, github, email) {
-    const student = new Student(firstName.lastName, github, email);
+    const student = new Student(firstName, lastName, github, email);
+    if (!this.isCohort(cohortName)) throw new Error('Cohort does not exist');
     if (this.isStudent(firstName, lastName, github, email)) {
       throw new Error('Student already exists in a cohort');
     } else {
-      //getCohort()
+      const cohort = this.getCohort(cohortName);
+      if (cohort.addStudent(student)) {
+        throw new Error('Cohort at maximum capacity');
+      }
     }
+    return student;
   }
 
-  // addStudentToCohort(cohortName, firstName, lastName, github, email) {
-  //   console.log('cohorts', cohortManager.cohorts);
-  //   const newStudent = {
-  //     studentId: cohortName.slice(7) + studentId++,
-  //     firstName,
-  //     lastName,
-  //     github,
-  //     email,
-  //   };
+  removeStudentFromCohort(cohortName, firstName, lastName, github, email) {
+    const cohort = this.getCohort(cohortName);
+    if (!this.isCohort(cohortName)) throw new Error('Cohort does not exist');
+    if (!this.isStudent(firstName, lastName, github, email)) {
+      throw new Error('Student does not exist in a cohort');
+    } else {
+      const id = this.getStudentid(firstName, lastName, github, email);
+      cohort.removeStudent(id);
+    }
+    return cohort.students;
+  }
 
-  //   if (!this.isStudent(firstName, lastName)) {
-  //     cohortManager.cohorts.forEach((x) => {
-  //       let studentsArr = x[Object.keys(x)].students;
-  //       if (studentsArr.length <= this.cohortCapacity) {
-  //         this.allStudents.push(newStudent);
-  //         if (Object.keys(x) == cohortName) {
-  //           studentsArr.push(newStudent);
-  //           console.log(studentsArr);
-  //         }
-  //       } else return `${cohortName} is at maximum capacity`;
-  //     });
-  //   } else return 'This person is already a student in a cohort';
-  //   return this.allStudents;
-  // }
+  cohortSort(reverse) {
+    const cohorts = this.getAllCohortNames();
+    if (!reverse) cohorts.sort();
+    else cohorts.sort().reverse();
+    return cohorts;
+  }
+
+  sortCohortStudents(cohortName, sort, reverse) {
+    const cohort = this.getCohort(cohortName);
+    const sortedStudents = cohort.studentSortBy(sort, reverse);
+    return sortedStudents;
+  }
 
   getCohort(cohortName) {
     let cohort;
@@ -68,73 +71,65 @@ class CohortManager {
 
   getAllCohortNames() {
     const allCohortNames = [];
+    this.cohorts.forEach((cohort) => allCohortNames.push(cohort.name));
     return allCohortNames;
   }
 
   getAllStudents() {
     const allStudents = [];
+    this.cohorts.forEach((cohort) => {
+      cohort.students.forEach((student) => allStudents.push(student));
+    });
     return allStudents;
   }
 
   isCohort(cohortName) {
     let isCohort = false;
-    if (this.getAllCohortNames().includes(cohortName)) {
-      isCohort = true;
-    }
+    if (this.getAllCohortNames().includes(cohortName)) isCohort = true;
     return isCohort;
   }
 
   isStudent(firstName, lastName, github, email) {
     let isStudent = false;
-    this.getAllCohortNames().forEach((x) => {
+    this.getAllStudents().forEach((student) => {
       if (
-        x.firstName === firstName &&
-        x.lastName === lastName &&
-        x.github === github &&
-        x.email === email
-      ) {
+        student.firstName === firstName &&
+        student.lastName === lastName &&
+        student.github === github &&
+        student.email === email
+      )
         isStudent = true;
-      }
     });
     return isStudent;
   }
 
-  // removeCohort(cohortName) {
-  //   if (this.allCohortNames.includes(cohortName)) {
-  //     this.allCohortNames = this.allCohortNames.filter((cohorts) => cohorts !== cohortName);
-  //     for (let i = 0; i < this.cohorts.length; i++) {
-  //       if (this.cohorts[i][cohortName]) this.cohorts.splice(i, 1);
-  //     }
-  //   } else return `${cohortName} not found`;
-  // }
+  getStudentid(firstName, lastName, github, email) {
+    let studentId;
+    this.getAllStudents().forEach((student) => {
+      if (
+        student.firstName === firstName &&
+        student.lastName === lastName &&
+        student.github === github &&
+        student.email === email
+      )
+        studentId = student.studentId;
+    });
+    return studentId;
+  }
 
-  // viewCohort(cohortName) {
-  //   let foundCohort;
-  //   this.cohorts.forEach((cohort) => {
-  //     if (Object.keys(cohort) == cohortName) {
-  //       foundCohort = cohort;
-  //     }
-  //   });
-  //   if (!foundCohort) return `${cohortName} not found`;
-  //   return foundCohort[cohortName];
-  // }
+  studentSearch(firstName, lastName) {
+    const foundStudents = [];
+    this.cohorts.forEach((cohort) => {
+      cohort.students.forEach((student) => {
+        if (student.firstName === firstName && student.lastName === lastName) {
+          foundStudents.push(student);
+        }
+      });
+    });
+    return foundStudents;
+  }
 }
 
-const cohortManager = new CohortManager();
-// cohortManager.createCohort('Cohort 03');
-cohortManager.createCohort('Cohort 01');
-cohortManager.removeCohort('Cohort 01');
-
-// console.log(cohortManager.getCohort('Cohort 01'));
-// console.log(cohortManager.cohorts);
-// cohortManager.createCohort('Cohort 02');
-// cohortManager.removeCohort('Cohort 01');
-// console.log(cohortManager.viewCohort('Cohort 06'));
-// console.log('cohorts', cohortManager.cohorts);
-// console.log('allnames', cohortManager.allCohortNames);
-// cohortManager.cohorts.splice(1, 1);
-// cohortManager.allCohortNames = cohortManager.allCohortNames.filter((x) => x != 'Cohort 06');
-// console.log('cohorts', cohortManager.cohorts);
-// console.log('allnames', cohortManager.allCohortNames);
+// const cohortManager = new CohortManager();
 
 module.exports = CohortManager;

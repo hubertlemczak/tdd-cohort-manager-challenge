@@ -39,13 +39,17 @@ Class CohortManager
   -createCohort(cohortName) => new instance in cohorts: new Cohort()
   -getCohort(cohortName) => finds instance of cohort
   -removeCohort(cohortName) => removes instance of cohort
-  -addStudentToCohort(cohortName,f,l,g,e) => student = new Student(f,l,g,e)
-  -removeStudentFromCohort(cohortName, id)
+  -addStudentToCohort(cohortName,f,l,g,e) => student = new Student(f,l,g,e) then cohort.getCohort(cohortName) then addStudent(student)
+  -removeStudentFromCohort(cohortName,f,l,g,e) => cohort.getCohort(cohortName) then getStudentId(f,l,g,e) then removeStudent(id)
+  -getStudentId(f,l,g,e) => found studentId
   -searchStudent(id) => found student
   -getAllCohortNames() => Arr of cohort names
   -getAllStudents() => Arr of students
   -isCohort(cohortName) => Boolean
   -isStudent(f,l,g,e) => Boolean
+  -cohortSort(reverse) => sorted cohorts by name
+  -sortCohortStudents(cohortName, sort, reverse) => sorted list (Arr) of students by [sort]
+  -studentSearch(firstName, lastName) => foundStudents (Arr)
 
 
 Class Cohort
