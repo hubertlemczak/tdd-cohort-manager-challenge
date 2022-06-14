@@ -15,15 +15,91 @@ const cohorts = [
   },
 ];
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Class CohortManager
+-PROPERTIES:
+  -cohorts (Arr new instance(Cohorts))
+  -allCohortNames (Arr cohortNames)
+  -allStudents (Arr of Obj)
+-METHODS:
+  -createCohort(cohortName) => new instance in cohorts: new Cohort()
+  -getCohort(cohortName) => finds instance of cohort
+  -removeCohort(cohortName) => removes instance of cohort
+  -addStudentToCohort(cohortName,f,l,g,e) => student = new Student(f,l,g,e) then cohort.getCohort(cohortName) then addStudent(student)
+  -removeStudentFromCohort(cohortName,f,l,g,e) => cohort.getCohort(cohortName) then getStudentId(f,l,g,e) then removeStudent(id)
+  -getStudentId(f,l,g,e) => found studentId
+  -searchStudent(id) => found student
+  -getAllCohortNames() => Arr of cohort names
+  -getAllStudents() => Arr of students
+  -isCohort(cohortName) => Boolean
+  -isStudent(f,l,g,e) => Boolean
+  -cohortSort(reverse) => sorted cohorts by name
+  -sortCohortStudents(cohortName, sort, reverse) => sorted list (Arr) of students by [sort]
+  -studentSearch(firstName, lastName) => foundStudents (Arr)
+
+
 Class Cohort
+-PROPERTIES(cohortName)
+  -name
+  -students(Arr)
+  -capacity
+-METHODS:
+  -addStudent(student) => pushes student into students Arr
+  -removeStudent(id) => removes student from students Arr
+  -studentSortBy(sort, reverse) => sorted list of students
+
+
+const id = 1;
+Class Student
+-PROPERTIES(firstName, lastName, github, email)
+  -studentId = id++
+  -firstName
+  -lastName
+  -github
+  -email
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Class CohortManager
 -PROPERTIES
   -cohorts (Array)
   -allCohortNames (Array)
 -METHODS
   -createCohort(cohortName) => new Object in cohorts: { cohortName: { students: [], teachers: [] } }
   -viewCohort(cohortName) => new Object in foundCohort: { students: [], teachers: [] }
+  -removerCohort(cohortName) => remove cohortName from allCohortNames Array and cohorts Array.
 
-Class Student
+Class Cohort
 -PROPERTIES
   -studentId (Integer)
   -allStudents (Array)
