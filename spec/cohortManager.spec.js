@@ -83,30 +83,15 @@ describe('Cohort Manager', () => {
 
   it('Cohort reached max capacity', () => {
     cohortManager.createCohort('Cohort 01');
-    cohortManager.addStudentToCohort('Cohort 01', 'Tst', 'Name', 'testname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Tet', 'Name', 'testname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Tes', 'Name', 'testname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'ame', 'testname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Nme', 'testname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Nae', 'testname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Nam', 'testname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'estname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'tstname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'tetname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'tesname', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testame', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testnme', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testnae', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testnam', 'test@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'est@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'tst@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'tet@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'tes@name.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'testname.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'test@ame.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'test@nme.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'test@nae.com');
-    cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'teame', 'test@nae.com');
+    for (let i = 0; i < 24; i++) {
+      cohortManager.addStudentToCohort(
+        'Cohort 01',
+        'Student',
+        String(i),
+        'testname' + String(i),
+        String(i) + 'test@name.com'
+      );
+    }
     expect(() => {
       cohortManager.addStudentToCohort('Cohort 01', 'Test', 'Name', 'testname', 'test@nam.com');
     }).toThrow(new Error('Cohort at maximum capacity'));
